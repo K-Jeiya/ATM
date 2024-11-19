@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess Game</title>
+  <link rel="shortcut icon" href="./images/android-chrome-512x512.png" type="image/x-icon">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .level-container {
+      margin: 20px 0;
+    }
+    .level-button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff6f61;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .level-button:hover {
+      background-color: #ff3e2d;
+    }
+    .game-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    input[type="number"] {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+      width: 200px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+    .message {
+      margin: 20px 0;
+      font-size: 1.2rem;
+    }
+    .result {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Guess Game</h1>
+  <div class="level-container">
+    <button class="level-button" onclick="startGame('EASY')">EASY (1-10)</button>
+    <button class="level-button" onclick="startGame('MEDIUM')">MEDIUM (1-50)</button>
+    <button class="level-button" onclick="startGame('HARD')">HARD (1-100)</button>
+  </div>
+
+  <div class="game-container" id="game">
+    <p id="level"></p>
+    <input type="number" id="guessInput" placeholder="Enter your guess" />
+    <button onclick="checkGuess()">Guess</button>
+    <div class="message" id="message"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    let randomNumber, attemptsLeft, maxAttempts;
+
+    function startGame(level) {
+      const gameContainer = document.getElementById("game");
+      const levelText = document.getElementById("level");
+
+      // Show the game container
+      gameContainer.style.display = "flex";
+
+      // Set game parameters based on the level
+      if (level === "EASY") {
+        randomNumber = Math.floor(Math.random() * 10) + 1;
+        attemptsLeft = 5;
+      } else if (level === "MEDIUM") {
+        randomNumber = Math.floor(Math.random() * 50) + 1;
+        attemptsLeft = 7;
+      } else if (level === "HARD") {
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+        attemptsLeft = 10;
+      }
+
+      maxAttempts = attemptsLeft;
+      levelText.innerText = `Level: ${level} | Attempts Left: ${attemptsLeft}`;
+      document.getElementById("message").innerText = "";
+      document.getElementById("result").innerText = "";
+      document.getElementById("guessInput").value = "";
+    }
+
+    function checkGuess() {
+      const guess = parseInt(document.getElementById("guessInput").value);
+      const message = document.getElementById("message");
+      const result = document.getElementById("result");
+
+      // Validate the input
+      if (!guess || guess < 1) {
+        message.innerText = "Please enter a valid number!";
+        return;
+      }
+
+      // Check the guess
+      if (guess === randomNumber) {
+        result.innerText = `🎉 Congratulations! You guessed it in ${
+          maxAttempts - attemptsLeft + 1
+        } attempts.`;
+        resetGame();
+      } else if (guess < randomNumber) {
+        attemptsLeft--;
+        message.innerText = "Too low! Try again.";
+      } else {
+        attemptsLeft--;
+        message.innerText = "Too high! Try again.";
+      }
+
+      // Update attempts left
+      document.getElementById("level").innerText = `Attempts Left: ${attemptsLeft}`;
+
+      // Check if attempts are over
+      if (attemptsLeft === 0) {
+        result.innerText = `❌ Game Over! The correct number was ${randomNumber}.`;
+        resetGame();
+      }
+    }
+
+    function resetGame() {
+      setTimeout(() => {
+        document.getElementById("game").style.display = "none";
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Options</title>
+  <link rel="shortcut icon" href="./images/android-chrome-512x512.png" type="image/x-icon">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: rgb(238,174,202);
+      background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: #333;
+    }
+    .task-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .task-button {
+      padding: 15px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #00c3ff;
+      color: rgba(255, 255, 255, 0.808);
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .task-button:hover {
+      background-color: #0080b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Which Task Do You Want to See? Click on the Tasks</h1>
+  <div class="task-container">
+    <button class="task-button" onclick="navigateTo('guessGame')">Guess Game</button>
+    <button class="task-button" onclick="navigateTo('slider')">Slider</button>
+    <button class="task-button" onclick="navigateTo('atmMachine')">ATM Machine</button>
+  </div>
+
+  <script>
+    function navigateTo(task) {
+      if (task === 'guessGame') {
+        window.location.href = 'guessGame.html'; 
+      } else if (task === 'slider') {
+        window.location.href = 'slider.html'; 
+      } else if (task === 'atmMachine') {
+        window.location.href = 'atmMachine.html'; 
+      }
+    }
+  </script>
+</body>
+</html>
+
